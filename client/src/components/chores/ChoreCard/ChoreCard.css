@@ -1,0 +1,65 @@
+.chore-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.2s;
+}
+
+.chore-card--completed {
+  opacity: 0.6;
+  background: var(--color-surface-alt);
+}
+
+.chore-card-content {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 0;
+}
+
+.chore-card-name {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chore-card--completed .chore-card-name {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.chore-card-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.chore-card-streak {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.chore-card-delete {
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color 0.15s;
+}
+
+.chore-card-delete:hover {
+  color: var(--color-danger);
+}

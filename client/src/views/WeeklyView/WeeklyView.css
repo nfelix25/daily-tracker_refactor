@@ -1,0 +1,20 @@
+.weekly-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.weekly-section {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.weekly-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
