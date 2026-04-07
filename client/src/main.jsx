@@ -6,11 +6,9 @@ import { App } from "./App";
 import "./styles/global.css";
 // [first-step: Tailwind] coexists alongside global.css
 import "./styles/tailwind.css";
+import { registerWebComponents } from "./web-components/registry";
 
-// [first-step: Web Components] Register <habit-card> as a native custom element.
-// React treats it as a plain HTML element; event handling is via ref + addEventListener.
-import { HabitCard } from "./web-components/HabitCard/HabitCard.element";
-customElements.define("habit-card", HabitCard);
+registerWebComponents();
 
 createRoot(document.getElementById("root")).render(
     <StrictMode>
