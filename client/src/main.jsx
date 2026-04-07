@@ -1,12 +1,11 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./App";
 
-// Base styles
-import "./styles/global.css";
-// [first-step: Tailwind] coexists alongside global.css
-import "./styles/tailwind.css";
+import { App } from "./App";
 import { registerWebComponents } from "./web-components/registry";
+
+import "./styles/global.css";
+import "./styles/tailwind.css";
 
 registerWebComponents();
 
