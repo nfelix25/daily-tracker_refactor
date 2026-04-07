@@ -1,7 +1,7 @@
 // [first-step: Web Components] HabitList renders <habit-card> custom elements.
 // React listens to the custom `habit-toggle` event via ref + addEventListener.
 // HabitCard.jsx (React) exists as the original counterpart to this web component.
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 import "./HabitList.css";
 import { useMemo } from "react";
 import { createHabitCardModel } from "../../../web-components/HabitCard/HabitCard.model";
