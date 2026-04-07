@@ -1,19 +1,7 @@
 import { getCompletions } from "../api/completions/getCompletions";
 import { createSignal, createEffect } from "../lib/signals";
-import { useMemo } from "react";
-import { useSignalValue } from "./useSignalStore";
 
-export function useCompletions() {
-    const model = useMemo(() => createCompletionsModel(), []);
-
-    return {
-        completions: useSignalValue(model.completions),
-        loading: useSignalValue(model.loading),
-        error: useSignalValue(model.error),
-    };
-}
-
-function completionsModel() {
+function completionsStore() {
     const [completions, setCompletions] = createSignal([]);
     const [loading, setLoading] = createSignal(true);
     const [error, setError] = createSignal(null);
@@ -28,7 +16,7 @@ function completionsModel() {
     return { completions, loading, error };
 }
 
-function createCompletionsModel() {
-    const model = completionsModel();
-    return model;
+export function createCompletionsStore() {
+    const store = completionsStore();
+    return store;
 }

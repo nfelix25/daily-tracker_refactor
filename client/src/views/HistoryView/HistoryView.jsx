@@ -1,8 +1,14 @@
-import { useCompletions } from "../../hooks/useCompletions";
+import { useMemo } from "react";
+import { createCompletionsStore } from "../../store/completions.store";
+import { useSignalValue } from "../../store/useSignalStore";
 import "./HistoryView.css";
 
 export function HistoryView() {
-    const { completions, loading, error } = useCompletions();
+    const completionsStore = useMemo(() => createCompletionsStore(), []);
+
+    const completions = useSignalValue(completionsStore.completions);
+    const loading = useSignalValue(completionsStore.loading);
+    const error = useSignalValue(completionsStore.error);
 
     if (loading) return <div className="loading">Loading…</div>;
     if (error) return <div className="error">Failed to load history.</div>;
