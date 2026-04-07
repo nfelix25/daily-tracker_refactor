@@ -2,7 +2,11 @@ import { createEffect } from "./signals.js";
 
 const HOLE_RE = /^__h(\d+)__$/;
 
-function bindFragment(root: Node, values: unknown[]) {
+function bindFragment(
+    root: Node,
+    values: unknown[],
+    disposers: (() => void)[] = [],
+) {
     // --- Text holes ---
     // Collect first, then replace (avoid mutating whe making)
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_COMMENT);
@@ -20,9 +24,11 @@ function bindFragment(root: Node, values: unknown[]) {
         comment.replaceWith(text);
 
         if (typeof value === "function") {
-            createEffect(() => {
-                text.nodeValue = String((value as () => unknown)());
-            });
+            disposers.push(
+                createEffect(() => {
+                    text.nodeValue = String((value as () => unknown)());
+                }),
+            );
         } else {
             text.nodeValue = String(value ?? "");
         }
@@ -48,9 +54,14 @@ function bindFragment(root: Node, values: unknown[]) {
             }
 
             if (typeof value === "function") {
-                createEffect(() => {
-                    el.setAttribute(name, String((value as () => unknown)()));
-                });
+                disposers.push(
+                    createEffect(() => {
+                        el.setAttribute(
+                            name,
+                            String((value as () => unknown)()),
+                        );
+                    }),
+                );
             } else {
                 el.setAttribute(name, String(value ?? ""));
             }
@@ -61,7 +72,7 @@ function bindFragment(root: Node, values: unknown[]) {
 export function myhtml(
     strings: TemplateStringsArray,
     ...values: unknown[]
-): DocumentFragment {
+): { fragment: DocumentFragment; dispose: () => void } {
     console.log({ strings, values });
     // 1. Build HTML with comment markers
     const markup = strings.reduce((acc, str, i) => {
@@ -77,6 +88,8 @@ export function myhtml(
     const fragment = template.content.cloneNode(true) as DocumentFragment;
 
     // 2. Bind values to the cloned fragment
-    bindFragment(fragment, values);
-    return fragment;
+    const disposers: (() => void)[] = [];
+    bindFragment(fragment, values, disposers);
+
+    return { fragment, dispose: () => disposers.forEach((d) => d()) };
 }

@@ -61,6 +61,8 @@ export function createEffect(fn: () => void) {
     };
 
     effect.execute();
+
+    return () => cleanup(effect);
 }
 
 export function createMemo<T>(fn: () => T) {
