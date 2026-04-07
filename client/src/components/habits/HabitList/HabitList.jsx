@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import "./HabitList.css";
 import { useMemo } from "react";
-import { createHabitCardModel } from "../../../web-components/HabitCard/HabitCard.model";
+import { createHabitCardModel } from "../../../web-components/components/HabitCard/HabitCard.model";
 
 export function HabitList({ habits, onToggle, onDelete }) {
     if (habits.length === 0) return null;
