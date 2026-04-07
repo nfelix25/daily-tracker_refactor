@@ -8,6 +8,7 @@
     "e2e": "npm test --prefix e2e"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "typescript": "^6.0.2"
   }
 }
