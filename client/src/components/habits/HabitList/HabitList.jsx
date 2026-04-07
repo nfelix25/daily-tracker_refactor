@@ -3,16 +3,17 @@
 // HabitCard.jsx (React) exists as the original counterpart to this web component.
 import { useRef, useEffect } from "react";
 import "./HabitList.css";
+import { useMemo } from "react";
+import { createHabitCardModel } from "../../../web-components/HabitCard/HabitCard.model";
 
 export function HabitList({ habits, onToggle, onDelete }) {
     if (habits.length === 0) return null;
     return (
-        <ul className="habit-list">
+        <ul className="habit-list" onHabittoggle={(e) => onToggle(e.detail.id)}>
             {habits.map((habit) => (
                 <HabitCardElement
                     key={habit.id}
                     habit={habit}
-                    onToggle={onToggle}
                     onDelete={onDelete}
                 />
             ))}
@@ -20,32 +21,19 @@ export function HabitList({ habits, onToggle, onDelete }) {
     );
 }
 
-function HabitCardElement({ habit, onToggle, onDelete }) {
-    const ref = useRef(null);
+function HabitCardElement({ habit, onDelete }) {
+    const model = useMemo(() => createHabitCardModel(), []);
 
     useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-
-        // Sync attributes imperatively — React 18 has limited custom element prop support
-        el.setAttribute("name", habit.name);
-        el.setAttribute("streak", String(habit.streak));
-        el.setAttribute("item-id", String(habit.id));
-        if (habit.completedToday) {
-            el.setAttribute("completed", "");
-        } else {
-            el.removeAttribute("completed");
-        }
-
-        const handler = (e) => onToggle(e.detail.id);
-        el.addEventListener("habit-toggle", handler);
-        return () => el.removeEventListener("habit-toggle", handler);
-    }, [habit, onToggle]);
+        model.setName(habit.name);
+        model.setStreak(habit.streak);
+        model.setId(habit.id);
+        model.setCompleted(habit.completedToday);
+    }, [habit]);
 
     return (
         <li className="habit-list-item">
-            {/* eslint-disable-next-line react/no-unknown-property */}
-            <habit-card ref={ref} />
+            <habit-card model={model} />
             <button
                 className="habit-list-delete"
                 onClick={() => onDelete(habit.id)}
