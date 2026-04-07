@@ -76,11 +76,12 @@ export class HabitCard extends BaseElement {
     }
 
     _handleToggle() {
+        console.log("Toggling habit", this.getAttribute("item-id"));
         this.dispatchEvent(
             new CustomEvent("habit-toggle", {
                 bubbles: true,
                 composed: true,
-                detail: { id: this.getAttribute("item-id") },
+                detail: { id: Number(this.getAttribute("item-id")) },
             }),
         );
     }
