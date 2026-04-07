@@ -26,19 +26,23 @@ import { myhtml } from "../../lib/html.js";
 
 import styles from "./HabitCard.css?inline" with { type: "css" };
 import templateHTML from "./HabitCard.html?raw" with { type: "html" };
-import { createHabitCardModel } from "./HabitCard.model.js";
+import {
+    createHabitCardModel,
+    type HabitCardModel,
+} from "./HabitCard.model.js";
 
 export class HabitCard extends BaseElement {
-    #model = createHabitCardModel();
+    #model: HabitCardModel;
     #dispose: (() => void) | null = null;
-
-    static get observedAttributes() {
-        return ["name", "streak", "completed", "item-id"] as const;
-    }
 
     constructor() {
         console.log("Constructing HabitCard");
         super(styles, templateHTML);
+        this.#model = createHabitCardModel();
+    }
+
+    set model(value: HabitCardModel) {
+        this.#model = value;
     }
 
     protected connected(): void {
@@ -63,25 +67,13 @@ export class HabitCard extends BaseElement {
         this.#dispose = null;
     }
 
-    attributeChangedCallback(
-        attr: (typeof HabitCard.observedAttributes)[number],
-        _oldVal: string | null,
-        newVal: string | null,
-    ) {
-        if (attr === "name") this.#model.setName(newVal ?? "");
-        else if (attr === "streak") this.#model.setStreak(Number(newVal));
-        else if (attr === "completed")
-            this.#model.setCompleted(this.hasAttribute("completed"));
-        else if (attr === "item-id") this.#model.setId(newVal);
-    }
-
     _handleToggle() {
-        console.log("Toggling habit", this.getAttribute("item-id"));
+        console.log("Toggling habit", this.#model.id());
         this.dispatchEvent(
-            new CustomEvent("habit-toggle", {
+            new CustomEvent("HabitToggle", {
                 bubbles: true,
                 composed: true,
-                detail: { id: Number(this.getAttribute("item-id")) },
+                detail: { id: this.#model.id() },
             }),
         );
     }

@@ -9,19 +9,20 @@ import { createHabitCardModel } from "../../../web-components/HabitCard/HabitCar
 export function HabitList({ habits, onToggle, onDelete }) {
     if (habits.length === 0) return null;
     return (
-        <ul className="habit-list" onHabittoggle={(e) => onToggle(e.detail.id)}>
+        <ul className="habit-list">
             {habits.map((habit) => (
                 <HabitCardElement
                     key={habit.id}
                     habit={habit}
                     onDelete={onDelete}
+                    onToggle={onToggle}
                 />
             ))}
         </ul>
     );
 }
 
-function HabitCardElement({ habit, onDelete }) {
+function HabitCardElement({ habit, onDelete, onToggle }) {
     const model = useMemo(() => createHabitCardModel(), []);
 
     useEffect(() => {
@@ -33,7 +34,10 @@ function HabitCardElement({ habit, onDelete }) {
 
     return (
         <li className="habit-list-item">
-            <habit-card model={model} />
+            <habit-card
+                model={model}
+                onHabitToggle={(e) => onToggle(e.detail.id)}
+            />
             <button
                 className="habit-list-delete"
                 onClick={() => onDelete(habit.id)}
