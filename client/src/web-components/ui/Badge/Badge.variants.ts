@@ -18,8 +18,8 @@ const badge = cva(
     },
 );
 
-export type Variant = NonNullable<VariantProps<typeof badge>["variant"]>;
+export type BadgeVariant = NonNullable<VariantProps<typeof badge>["variant"]>;
 
-export function getBadgeClass(variant: Variant) {
+export function getBadgeClass(variant: BadgeVariant) {
     return cx(badge({ variant }));
 }
