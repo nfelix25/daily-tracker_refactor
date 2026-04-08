@@ -1,8 +1,8 @@
 import templateHTML from "./Badge.html?raw" with { type: "html" };
-import { getBadgeClass, type Variant } from "./Badge.variants";
+import { getBadgeClass, type BadgeVariant } from "./Badge.variants";
 
 export class Badge extends HTMLElement {
-    #variant: Variant = "default";
+    #variant: BadgeVariant = "default";
 
     connectedCallback() {
         const text = this.textContent;
@@ -12,7 +12,7 @@ export class Badge extends HTMLElement {
         this.className = getBadgeClass(this.#variant);
     }
 
-    set variant(value: Variant) {
+    set variant(value: BadgeVariant) {
         this.#variant = value;
         if (this.isConnected) this.className = getBadgeClass(value);
     }

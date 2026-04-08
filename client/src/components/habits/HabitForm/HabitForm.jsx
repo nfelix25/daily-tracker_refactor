@@ -1,27 +1,26 @@
-import { useState } from 'react'
-import { Button } from '../../ui/Button/Button'
-import './HabitForm.css'
+import { useState } from "react";
+import "./HabitForm.css";
 
 export function HabitForm({ onAdd, frequency }) {
-  const [name, setName] = useState('')
+    const [name, setName] = useState("");
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    if (!name.trim()) return
-    onAdd(name.trim())
-    setName('')
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!name.trim()) return;
+        onAdd(name.trim());
+        setName("");
+    };
 
-  return (
-    <form className="habit-form" onSubmit={handleSubmit}>
-      <input
-        className="habit-form-input"
-        type="text"
-        placeholder={`New ${frequency} habit…`}
-        value={name}
-        onChange={e => setName(e.target.value)}
-      />
-      <Button type="submit">Add</Button>
-    </form>
-  )
+    return (
+        <form className="habit-form" onSubmit={handleSubmit}>
+            <input
+                className="habit-form-input"
+                type="text"
+                placeholder={`New ${frequency} habit…`}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+            />
+            <my-button type="submit">Add</my-button>
+        </form>
+    );
 }

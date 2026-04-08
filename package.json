@@ -1,14 +1,14 @@
 {
-  "name": "daily-tracker",
-  "private": true,
-  "scripts": {
-    "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\" \"npm run dev:trpc --prefix server\"",
-    "install:all": "npm install && npm install --prefix client && npm install --prefix server && npm install --prefix e2e",
-    "test": "concurrently \"npm test --prefix client\" \"npm test --prefix server\"",
-    "e2e": "npm test --prefix e2e"
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.0",
-    "typescript": "^6.0.2"
-  }
+    "name": "daily-tracker",
+    "private": true,
+    "scripts": {
+        "dev": "concurrently \"npm run dev --prefix client\" \"npm run dev --prefix server\" \"npm run dev:trpc --prefix server\"",
+        "install:all": "npm install -f && npm install -f --prefix client && npm install -f --prefix server && npm install -f --prefix e2e",
+        "test": "concurrently \"npm test --prefix client\" \"npm test --prefix server\"",
+        "e2e": "npm test --prefix e2e"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.0",
+        "typescript": "^6.0.2"
+    }
 }
