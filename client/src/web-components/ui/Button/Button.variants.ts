@@ -1,9 +1,9 @@
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cx } from "../../../lib/cx";
 
 const button = cva(
-    "inline-flex items-center content-center py-2 px-4 border-none rounded-lg text-sm font-medium transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed",
+    "inline-flex items-center content-center py-2 px-4 border-none rounded-lg text-sm font-medium cursor-pointer transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed",
     {
         variants: {
             variant: {
