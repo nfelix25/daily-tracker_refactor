@@ -1,12 +1,9 @@
-import { BaseElement } from "../../../lib/element";
-import { tailwindSheet } from "../../../lib/tailwind";
-import templateHTML from "./Button.html?raw" with { type: "html" };
 import { getButtonClass, type ButtonVariant } from "./Button.variants";
 
 // Break out into a HOC wrapper --- Will need to differentiate between specific target elements eg button
 const REFLECTED = ["type", "disabled"] as const;
 
-export class Button extends BaseElement {
+export class Button extends HTMLElement {
     static formAssociated = true;
     #internals: ElementInternals;
 
@@ -14,27 +11,22 @@ export class Button extends BaseElement {
     #button!: HTMLButtonElement;
 
     constructor() {
-        super(undefined, templateHTML);
+        super();
         this.#internals = this.attachInternals();
     }
 
-    connected() {
-        super.connected();
-        this.shadowRoot!.adoptedStyleSheets = [tailwindSheet];
-        this.#button = this.shadowRoot!.querySelector("button")!;
-        this.#button.className = getButtonClass(this.#variant);
+    connectedCallback() {
+        const btn = document.createElement("button");
+        btn.className = getButtonClass(this.#variant);
+        btn.append(...this.childNodes);
+        this.appendChild(btn);
+        this.#button = btn;
 
         for (const attr of REFLECTED) {
             if (this.hasAttribute(attr)) {
                 this.#button.setAttribute(attr, this.getAttribute(attr)!);
             }
         }
-
-        this.#button.addEventListener("click", () => {
-            if (this.#button.type === "submit") {
-                this.#internals.form?.requestSubmit();
-            }
-        });
     }
 
     set variant(value: ButtonVariant) {
@@ -47,7 +39,7 @@ export class Button extends BaseElement {
         _: void,
         newVal: string,
     ) {
-        if (REFLECTED.includes(name)) {
+        if (this.isConnected && REFLECTED.includes(name)) {
             this.#button.setAttribute(name, newVal);
         }
     }
