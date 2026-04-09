@@ -8,6 +8,7 @@ export class Button extends HTMLElement {
     #internals: ElementInternals;
 
     #variant: ButtonVariant = "primary";
+    #active = false;
     #button!: HTMLButtonElement;
 
     constructor() {
@@ -17,10 +18,10 @@ export class Button extends HTMLElement {
 
     connectedCallback() {
         const btn = document.createElement("button");
-        btn.className = getButtonClass(this.#variant);
         btn.append(...this.childNodes);
         this.appendChild(btn);
         this.#button = btn;
+        this.#setButtonClass();
 
         for (const attr of REFLECTED) {
             if (this.hasAttribute(attr)) {
@@ -29,9 +30,22 @@ export class Button extends HTMLElement {
         }
     }
 
+    #setButtonClass() {
+        if (this.isConnected) {
+            this.#button.className = getButtonClass({
+                variant: this.#variant,
+                active: this.#active,
+            });
+        }
+    }
+
     set variant(value: ButtonVariant) {
         this.#variant = value;
-        if (this.isConnected) this.#button.className = getButtonClass(value);
+        this.#setButtonClass();
+    }
+    set active(value: boolean) {
+        this.#active = value;
+        this.#setButtonClass();
     }
 
     attributeChangedCallback(
