@@ -19,13 +19,14 @@ export function App() {
                 <h1 className="app-title">Daily Tracker</h1>
                 <nav className="app-nav">
                     {VIEWS.map((v) => (
-                        <button
+                        <my-button
                             key={v.id}
-                            className={`app-nav-tab ${view === v.id ? "app-nav-tab--active" : ""}`}
                             onClick={() => setView(v.id)}
+                            variant="nav"
+                            active={view === v.id}
                         >
                             {v.label}
-                        </button>
+                        </my-button>
                     ))}
                 </nav>
             </header>
