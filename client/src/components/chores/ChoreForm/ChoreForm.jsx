@@ -13,8 +13,7 @@ export function ChoreForm({ onAdd, frequency }) {
 
     return (
         <form className="chore-form" onSubmit={handleSubmit}>
-            <input
-                className="chore-form-input"
+            <my-input
                 type="text"
                 placeholder={`New ${frequency} chore…`}
                 value={name}

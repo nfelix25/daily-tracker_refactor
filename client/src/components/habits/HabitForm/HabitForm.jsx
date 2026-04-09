@@ -13,8 +13,7 @@ export function HabitForm({ onAdd, frequency }) {
 
     return (
         <form className="habit-form" onSubmit={handleSubmit}>
-            <input
-                className="habit-form-input"
+            <my-input
                 type="text"
                 placeholder={`New ${frequency} habit…`}
                 value={name}
