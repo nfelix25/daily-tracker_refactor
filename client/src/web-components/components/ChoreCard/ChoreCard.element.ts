@@ -1,47 +1,25 @@
-/**
- * [first-step: Web Components]
- * <habit-card> — a native custom element replacing the React HabitCard.
- *
- * Attributes:
- *   name      — display name of the habit
- *   streak    — current streak count (string)
- *   item-id   — the habit's numeric id
- *   completed — presence-based boolean; attribute present = completed
- *
- * Events dispatched:
- *   habit-toggle — CustomEvent bubbles:true, composed:true
- *                  detail: { id: String }
- *
- * Usage in React (HabitList.jsx):
- *   const ref = useRef(null)
- *   useEffect(() => {
- *     el.addEventListener('habit-toggle', handler)
- *     return () => el.removeEventListener('habit-toggle', handler)
- *   }, [habit, onToggle])
- *   return <habit-card ref={ref} />
- */
-
 import { BaseElement } from "../../../lib/element.js";
 import { myhtml } from "../../../lib/html.js";
+import { tailwindSheet } from "../../../lib/tailwind.js";
 import {
     createTrackableViewModel,
-    type HabitCardModel,
+    type ChoreCardModel,
 } from "../../viewmodels/trackable.viewmodel.js";
 
-import styles from "./HabitCard.css?inline" with { type: "css" };
-import templateHTML from "./HabitCard.html?raw" with { type: "html" };
+import styles from "./ChoreCard.css?inline" with { type: "css" };
+import templateHTML from "./ChoreCard.html?raw" with { type: "html" };
 
-export class HabitCard extends BaseElement {
-    #model: HabitCardModel;
+export class ChoreCard extends BaseElement {
+    #model: ChoreCardModel;
     #dispose: (() => void) | null = null;
 
     constructor() {
-        console.log("Constructing HabitCard");
+        console.log("Constructing ChoreCard");
         super(styles, templateHTML);
-        this.#model = createTrackableViewModel("habit-card");
+        this.#model = createTrackableViewModel("chore-card");
     }
 
-    set model(value: HabitCardModel) {
+    set model(value: ChoreCardModel) {
         this.#model = value;
     }
 
@@ -59,6 +37,10 @@ export class HabitCard extends BaseElement {
             `;
 
         this.#dispose = dispose;
+        this.shadowRoot!.adoptedStyleSheets = [
+            ...this.shadowRoot!.adoptedStyleSheets,
+            tailwindSheet,
+        ];
         this.shadowRoot!.appendChild(fragment);
     }
 
@@ -68,9 +50,9 @@ export class HabitCard extends BaseElement {
     }
 
     _handleToggle() {
-        console.log("Toggling habit", this.#model.id());
+        console.log("Toggling chore", this.#model.id());
         this.dispatchEvent(
-            new CustomEvent("HabitToggle", {
+            new CustomEvent("ChoreToggle", {
                 bubbles: true,
                 composed: true,
                 detail: { id: this.#model.id() },

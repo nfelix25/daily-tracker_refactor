@@ -1,6 +1,6 @@
-import { createSignal } from "../../../lib/signals";
+import { createSignal } from "../../lib/signals";
 
-export function createHabitCardModel() {
+export function createTrackableViewModel<T>(type: T) {
     const [name, setName] = createSignal("");
     const [streak, setStreak] = createSignal(0);
     const [completed, setCompleted] = createSignal(false);
@@ -15,7 +15,15 @@ export function createHabitCardModel() {
         setCompleted,
         id,
         setId,
+
+        type,
     };
 }
 
-export type HabitCardModel = ReturnType<typeof createHabitCardModel>;
+export type HabitCardModel = ReturnType<
+    typeof createTrackableViewModel<"habit-card">
+>;
+
+export type ChoreCardModel = ReturnType<
+    typeof createTrackableViewModel<"chore-card">
+>;

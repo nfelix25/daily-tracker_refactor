@@ -4,7 +4,7 @@
 import { useEffect } from "react";
 import "./HabitList.css";
 import { useMemo } from "react";
-import { createHabitCardModel } from "../../../web-components/components/HabitCard/HabitCard.model";
+import { createTrackableViewModel } from "../../../web-components/viewmodels/trackable.viewmodel";
 
 export function HabitList({ habits, onToggle, onDelete }) {
     if (habits.length === 0) return null;
@@ -23,7 +23,7 @@ export function HabitList({ habits, onToggle, onDelete }) {
 }
 
 function HabitCardElement({ habit, onDelete, onToggle }) {
-    const model = useMemo(() => createHabitCardModel(), []);
+    const model = useMemo(() => createTrackableViewModel("habit-card"), []);
 
     useEffect(() => {
         model.setName(habit.name);
