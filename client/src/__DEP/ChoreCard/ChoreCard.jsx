@@ -1,4 +1,4 @@
-import { Checkbox } from "../../ui/Checkbox/Checkbox";
+import { Checkbox } from "../../components/ui/Checkbox/Checkbox";
 import "./ChoreCard.css";
 
 export function ChoreCard({ chore, onToggle, onDelete }) {
